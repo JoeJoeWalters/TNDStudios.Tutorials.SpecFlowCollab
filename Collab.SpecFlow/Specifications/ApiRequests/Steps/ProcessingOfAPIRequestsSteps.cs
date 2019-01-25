@@ -21,6 +21,7 @@ namespace TNDStudios.Tutorials.SpecFlowCollab.SpecFlow.Specifications.ApiRequest
         /// </summary>
         private IAPIRequest<IDomainObject> apiRequest;
         private IServiceBusHandler<IDomainObject> mockedServiceBus;
+        private BusinessLogic businessLogic;
         private Boolean apiResult;
 
         /// <summary>
@@ -58,6 +59,9 @@ namespace TNDStudios.Tutorials.SpecFlowCollab.SpecFlow.Specifications.ApiRequest
             // Make sure any variables really are reset
             apiRequest = null; // No request
             apiResult = false; // No records saved
+
+            // Connect the dots
+            businessLogic = new BusinessLogic(mockedServiceBus);
         }
 
         /// <summary>

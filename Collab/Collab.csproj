@@ -42,12 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIRequest.cs" />
-    <Compile Include="DomainObjectBase.cs" />
+    <Compile Include="BusinessLogic.cs" />
+    <Compile Include="Models\DomainObjectBase.cs" />
     <Compile Include="Interfaces\IAPIRequest.cs" />
     <Compile Include="Interfaces\IDomainObject.cs" />
-    <Compile Include="Asset.cs" />
+    <Compile Include="Models\Asset.cs" />
     <Compile Include="Interfaces\IServiceBusHandler.cs" />
-    <Compile Include="Person.cs" />
+    <Compile Include="Models\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceBusHandler.cs" />
   </ItemGroup>
