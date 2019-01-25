@@ -75,7 +75,7 @@ namespace TNDStudios.Tutorials.SpecFlowCollab.SpecFlow.Specifications.ApiRequest
         /// </summary>
         /// <param name="typeString"></param>
         [Given(@"a (.*) record has been transmitted to the Api")]
-        public void GivenAPersonRecordHasBeenTransmittedToTheApi(String typeString)
+        public void GivenARecordHasBeenTransmittedToTheApi(String typeString)
         {
             // What has the specflow step asked to check?
             IDomainObject objectToUse = null;
@@ -122,7 +122,7 @@ namespace TNDStudios.Tutorials.SpecFlowCollab.SpecFlow.Specifications.ApiRequest
         }
 
         [Then(@"the (.*) record is placed on the (.*) service bus")]
-        public void ThenThePersonRecordIsPlacedOnThePersonServiceBus(String objectName, String serviceBusName)
+        public void ARecordIsPlacedOnThePersonServiceBus(String objectName, String serviceBusName)
             => Assert.True(apiResult);
     }
 }
