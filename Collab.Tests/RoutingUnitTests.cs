@@ -64,5 +64,14 @@ namespace TNDStudios.Tutorials.SpecFlowCollab.Tests
             Assert.True(result);
             Assert.AreEqual(type, resultType);
         }
+
+        [Theory]
+        [TestCase(null, null)]
+        public void Saved_To_Correct_ServiceBus(
+            IAPIRequest<IDomainObject> request, 
+            ServiceBusTopic expectedServiceBusTopic)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

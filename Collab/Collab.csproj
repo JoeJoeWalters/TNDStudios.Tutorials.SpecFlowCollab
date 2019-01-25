@@ -46,6 +46,7 @@
     <Compile Include="Interfaces\IAPIRequest.cs" />
     <Compile Include="Interfaces\IDomainObject.cs" />
     <Compile Include="Asset.cs" />
+    <Compile Include="Interfaces\IServiceBusHandler.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
