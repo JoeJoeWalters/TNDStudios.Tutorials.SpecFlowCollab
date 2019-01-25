@@ -58,19 +58,27 @@ namespace TNDStudios.Tutorials.SpecFlowCollab.SpecFlow.Specifications.ApiRequest
 
         }
 
+        /// <summary>
+        /// Check the object type that specflow is telling us to use and 
+        /// select the appropriate bit of canned data
+        /// </summary>
+        /// <param name="typeString"></param>
         [Given(@"a (.*) record has been transmitted to the Api")]
         public void GivenAPersonRecordHasBeenTransmittedToTheApi(String typeString)
         {
             // What has the specflow step asked to check?
             IDomainObject objectToUse = null;
+            Type typeToCheck = null;
             switch (typeString)
             {
                 case "Person":
                     objectToUse = testPerson; // A Person
+                    typeToCheck = typeof(Person);
                     break;
 
                 case "Asset":
                     objectToUse = testAsset; // An Asset
+                    typeToCheck = typeof(Asset);
                     break;
             }
 
@@ -79,13 +87,18 @@ namespace TNDStudios.Tutorials.SpecFlowCollab.SpecFlow.Specifications.ApiRequest
                         {
                             Data = objectToUse
                         };
+
+            // Now run the unit test to see if the data was of the correct type
+            routingUnitTests.Recieve_Api_Request_Of_Given_Type(apiRequest, typeToCheck);
         }
 
+        /// <summary>
+        /// Relay on the specflow step to the unit test that checks the object
+        /// validity
+        /// </summary>
         [Given(@"the processor passes the basic validation of that record")]
         public void GivenTheProcessorPassesTheBasicValidationOfThatRecord()
-        {
-            Assert.True(apiRequest.Data.IsValid);
-        }
+            => routingUnitTests.Is_Object_Valid(apiRequest);
 
         [When(@"the request is processed by the routing logic")]
         public void WhenTheRequestIsProcessedByTheRoutingLogic()
