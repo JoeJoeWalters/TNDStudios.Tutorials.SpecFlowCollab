@@ -67,11 +67,35 @@ namespace TNDStudios.Tutorials.SpecFlowCollab.Tests
 
         [Theory]
         [TestCase(null, null)]
-        public void Saved_To_Correct_ServiceBus(
+        public void Saved_To_Service_Bus(
             IAPIRequest<IDomainObject> request, 
-            ServiceBusTopic expectedServiceBusTopic)
+            IServiceBusHandler<IDomainObject> serviceBus)
         {
-            throw new NotImplementedException();
+            // Arrange
+            request = (request == null) ?
+                new APIRequest<IDomainObject>()
+                {
+                    Data = new Person()
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = "Test Name",
+                        Description = "Test Description"
+                    }
+                } : request;
+
+            serviceBus = (serviceBus == null) ?
+                new ServiceBusHandler<IDomainObject>() {}
+                : serviceBus;
+
+            // Act
+            Int32 result = serviceBus.SaveObjects(
+                new List<IDomainObject>()
+                {
+                    request.Data
+                });
+
+            // Assert
+            Assert.AreEqual(1, result);
         }
     }
 }

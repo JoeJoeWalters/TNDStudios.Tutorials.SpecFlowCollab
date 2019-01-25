@@ -1,7 +1,9 @@
 ﻿using System;
 using NUnit.Framework;
+using NSubstitute;
 using TechTalk.SpecFlow;
 using TNDStudios.Tutorials.SpecFlowCollab.Tests;
+using System.Collections.Generic;
 
 namespace TNDStudios.Tutorials.SpecFlowCollab.SpecFlow.Specifications.ApiRequests
 {
@@ -18,6 +20,8 @@ namespace TNDStudios.Tutorials.SpecFlowCollab.SpecFlow.Specifications.ApiRequest
         /// Define any local variables used to store state between the scenario steps
         /// </summary>
         private IAPIRequest<IDomainObject> apiRequest;
+        private IServiceBusHandler<IDomainObject> mockedServiceBus;
+        private Boolean apiResult;
 
         /// <summary>
         /// Canned Test Data
@@ -45,8 +49,15 @@ namespace TNDStudios.Tutorials.SpecFlowCollab.SpecFlow.Specifications.ApiRequest
             // Create an instance of each test class to use
             routingUnitTests = new RoutingUnitTests();
 
+            // Create a mocked up substitute for our service bus logic
+            mockedServiceBus = Substitute.For<IServiceBusHandler<IDomainObject>>();
+            mockedServiceBus
+                .SaveObjects(new List<IDomainObject>() { })
+                .ReturnsForAnyArgs(1);
+
             // Make sure any variables really are reset
-            apiRequest = null;
+            apiRequest = null; // No request
+            apiResult = false; // No records saved
         }
 
         /// <summary>
@@ -103,19 +114,15 @@ namespace TNDStudios.Tutorials.SpecFlowCollab.SpecFlow.Specifications.ApiRequest
         [When(@"the request is processed by the routing logic")]
         public void WhenTheRequestIsProcessedByTheRoutingLogic()
         {
-
+            // Run the test, it should fail at stop here if it does not work
+            routingUnitTests.Saved_To_Service_Bus(apiRequest, mockedServiceBus);
+            
+            // Mark the result as a success
+            apiResult = true;
         }
 
-        [Then(@"the Person record is placed on the Person service bus")]
-        public void ThenThePersonRecordIsPlacedOnThePersonServiceBus()
-        {
-
-        }
-
-        [Then(@"the Assert record is placed on the Asset service bus")]
-        public void ThenTheAssertRecordIsPlacedOnTheAssetServiceBus()
-        {
-
-        }
+        [Then(@"the (.*) record is placed on the (.*) service bus")]
+        public void ThenThePersonRecordIsPlacedOnThePersonServiceBus(String objectName, String serviceBusName)
+            => Assert.True(apiResult);
     }
 }
